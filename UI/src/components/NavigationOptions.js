@@ -3,7 +3,7 @@ import Layout from '../config/Layout';
 export default {
   headerBackTitle: null,
   headerTruncatedBackTitle: null,
-  headerTintColor: '#fff', // @todo Make this color dynamic depending on background color
+  headerTintColor: '#282828',
   headerTitleStyle: {
     width: 250,
   },

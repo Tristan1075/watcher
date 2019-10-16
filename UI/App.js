@@ -7,8 +7,9 @@ import { Provider } from 'react-redux';
 
 import HomeScreen from './src/screens/HomeScreen';
 import CartScreen from './src/screens/CartScreen';
+import CustomWatchScreen from './src/screens/CustomWatchScreen';
 import WatchDetailScreen from './src/screens/WatchDetailScreen';
-import configureStore from './store/configureStore'
+import configureStore from './src/store/configureStore'
 
 
 const AppNavigator = createDrawerNavigator(
@@ -23,8 +24,16 @@ const AppNavigator = createDrawerNavigator(
       Cart:{
         screen: CartScreen
       },
+      CustomWatch: {
+        screen: CustomWatchScreen
+      }
     }),
-  }, {
+    CartDrawer: createStackNavigator({
+      Cart: {
+        screen: CartScreen,
+      }
+    })
+  },{
     initialRouteName: 'HomeDrawer',
     contentOptions: {
       activeTintColor: '#e91e63',

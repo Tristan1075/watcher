@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import NavigationOptions from '../components/NavigationOptions';
-import Layout from '../config/Layout'
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+import { Button, Icon } from 'react-native-elements';
 
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import NavigationOptions from '../components/NavigationOptions';
+import Layout from '../config/Layout';
+import { addProduct } from '../store/actions/products';
 
 
 /*
@@ -17,27 +18,44 @@ type props {
 
 class WatchDetailScreen extends React.Component {
 
-  static navigationOptions = {
-    ...NavigationOptions,
-    title: 'Detail',
-    headerRight: (
-      <TouchableOpacity onPress>
-        <Icon
-          name='cart-plus'
-          type='font-awesome'
-          color='#fff'
-          size={30}
-        />
-      </TouchableOpacity>
-    ),
+  static navigationOptions = ({navigation}) => {
+    return {
+      ...NavigationOptions,
+      title: 'Detail',
+      headerRight: (
+        <TouchableOpacity onPress={navigation.getParam('addCart')}>
+          <Icon
+            name='cart-plus'
+            type='font-awesome'
+            color='#000'
+            size={30}
+          />
+        </TouchableOpacity>
+      ),
+      headerStyle: {
+        marginRight: Layout.marginL
+      }
+    }
   };
+
+  componentDidMount () {
+    this.props.navigation.setParams({ addCart: this.handleAddCart });
+  }
+
+  handleAddCart = async () => {
+
+    const { item } = this.props.navigation.state.params;
+
+    this.props.addProduct(item);
+    this.props.navigation.navigate('Cart');
+  }
 
   render () {
 
     const { item } = this.props.navigation.state.params;
 
     return(
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.imageContainer}>
           <Image
             source={{uri: item.image}}
@@ -46,35 +64,28 @@ class WatchDetailScreen extends React.Component {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.price}>{item.price}</Text>
+          <Text style={styles.price}>{item.price}€</Text>
           <Text style={styles.presentation}>{item.description}</Text>
         </View>
-
         <View style={styles.buttonContainer}>
+          <Button title="Button" buttonStyle={styles.buttonStyle} />
           <Button
-              title=" Button  "
-              style={styles.buttonStyle}/>
-          <Button
-              title=" Button  "
-              style={styles.buttonStyle}/>
+              title="Button"
+              buttonStyle={styles.buttonStyle}/>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
   buttonStyle: {
-  height: 40,
-      width:160,
-      borderRadius:10,
-      marginLeft :5,
-      marginRight:5
-
-},
-
-
+    height: 40,
+    width:100,
+    marginHorizontal: 2*Layout.marginL,
+    borderRadius:10,
+    backgroundColor: '#000'
+  },
   container: {
     flex: 1,
     margin: Layout.marginL,
@@ -96,25 +107,20 @@ const styles = StyleSheet.create({
     height: 400,
   },
   textContainer: {
-    paddingVertical: Layout.marginL
+    paddingVertical: Layout.marginL,
+    paddingHorizontal: 4*Layout.marginL
   },
-
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
-
   title: {
     fontWeight: 'bold',
     fontSize: 25,
     letterSpacing: 2,
-    marginLeft: '5%',
-    marginRight: '5%',
     alignItems: 'center'
   },
   price: {
-    marginLeft: '5%',
-    marginRight: '5%',
     alignItems: 'center',
     fontWeight: '100',
     fontSize: 33
@@ -124,16 +130,19 @@ const styles = StyleSheet.create({
     color: Layout.color.secondary,
     fontWeight: '100',
     textAlign: 'justify',
-    marginLeft: '10%',
-    marginRight: '10%'
   },
   description: {
-    marginLeft: '5%',
-    marginRight: '5%',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: '#000'
   }
 });
 
-export default WatchDetailScreen;
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addProduct: (item) => dispatch(addProduct(item))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(WatchDetailScreen);
