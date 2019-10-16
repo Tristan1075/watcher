@@ -1,21 +1,77 @@
 Product = require('../models/productModel');
 ProductSize = require('../models/productSizeModel');
+Size = require('../models/sizeModel');
 ProductTags = require('../models/productTagsModel');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/secrets');
 
 exports.getAllProducts = function(req, res){
-    Product.find({active: true}, function (err, product) {
+    Product.find({active: true}, async function (err, product) {
         if (err) {
             res.send(err);
         }
         else {
-            res.json(product);
+            var data = [];
+            /* const datas = products.map(async (product) => {
+                return await Product.findOne({id_product: product._id}, function(err, productSize){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        return productSize;
+                    }
+                });
+              });
+
+              const resolvedProductSizes = await Promise.all(datas);
+              const onlyEvent = resolvedProductSizes.filter(n => n);
+              console.log("DATAS : " + resolvedProductSizes); */
+            for(let i=0; i<product.length;i++){
+
+
+                
+                console.log("product 0 = " + product[0]);
+                console.log("getProductSizes = " + getProductSizes(product[0]));
+                console.log("getProductSizes = " + await getProductSizes(product[0]));
+                var productSizes = await getProductSizes(product[i]);
+                if (productSizes) {
+                    for(let j=0; j<productSizes.length;j++){
+                        var sizes = getSizes(productSizes);
+                    }
+                    var oneProduct = new Object({ product: product[i], sizes: sizes});
+                    await console.log(oneProduct);
+                    data.push(oneProduct);
+                }
+            }
+            await console.log(data);
+            res.json(data);
         }
     }).sort({viewed_times: -1});
 };
 
+async function getProductSizes(product){
+    await ProductSize.find({id_product: product._id}, function(err, productSize){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("DANS GET PRODUCT SIZES : " + productSize);
+            return productSize.id_size;
+        }
+    });
+};
+
+async function getSizes(productSizes){
+    Size.find({_id: productSizes.id_size}, function(err,size){
+        if(err){
+            console.log(err);
+        }
+        else{
+            return size;
+        }
+    })
+}
 
 exports.getProduct = function(req, res){
     Product.findOne({_id: req.params.productId}, function(err, product){
