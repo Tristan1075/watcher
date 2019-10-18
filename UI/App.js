@@ -10,6 +10,7 @@ import CartScreen from './src/screens/CartScreen';
 import CustomWatchScreen from './src/screens/CustomWatchScreen';
 import OrderScreen from './src/screens/OrderScreen';
 import WatchDetailScreen from './src/screens/WatchDetailScreen';
+import HelpScreen from "./src/screens/HelpScreen";
 import configureStore from './src/store/configureStore'
 import { Icon } from 'react-native-elements'
 
@@ -68,9 +69,26 @@ const AppNavigator = createDrawerNavigator(
     }, {
       navigationOptions: {
         drawerLabel: 'Order',
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({tintColor}) => (
           <Icon
             name='list-alt'
+            type='font-awesome'
+            color='#000'
+            size={30}
+          />
+        )
+      }
+    }),
+    HelpDrawer: createStackNavigator({
+      Help: {
+        screen: HelpScreen,
+      }
+    }, {
+      navigationOptions: {
+        drawerLabel: 'Order',
+        drawerIcon: ({tintColor}) => (
+          <Icon
+            name='question-circle'
             type='font-awesome'
             color='#000'
             size={30}
