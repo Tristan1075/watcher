@@ -88,12 +88,13 @@ class CustomWatchScreen extends React.Component {
     this.setState({ watchComponent: [...this.state.watchComponent, this.state.allWatchComponents[2][this._carousel.currentIndex]]},
       () => {
         const watchComponent = this.state.watchComponent;
-        this.props.navigation.navigate('Cart', { watchComponent})
+        this.props.navigation.popToTop();
 
       });
   }
 
   render () {
+    console.log(this.state.allWatchComponents)
     if(this.state.allWatchComponents[0]) {
       return (
         <View style={{flex: 1}}>
@@ -203,7 +204,7 @@ class CustomWatchScreen extends React.Component {
               />
               <Pagination
                 carouselRef={this._carousel}
-                dotsLength={this.state.allWatchComponents[2]}
+                dotsLength={this.state.allWatchComponents[2].length}
                 activeDotIndex={this.state.activeIndexCarousel}
                 containerStyle={{backgroundColor: '#000'}}
                 dotStyle={{

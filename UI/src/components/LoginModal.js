@@ -64,7 +64,7 @@ class LoginModal extends React.Component {
               <Input
                 textContentType='password'
                 name='password'
-                pass
+                secureTextEntry={true}
                 onChangeText={(value) => this.setState({ password: value })}
                 value={this.state.password}
                 containerStyle={styles.containerInput}

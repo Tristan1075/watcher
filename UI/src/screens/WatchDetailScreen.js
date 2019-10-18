@@ -27,7 +27,13 @@ class WatchDetailScreen extends React.Component {
       title: 'Detail',
       headerRight: (
         <View>
-          <Badge status="warning" value={navigation.getParam('value')}/>
+          <Badge
+            status="warning"
+            value={navigation.getParam('value')}
+            badgeStyle={{ backgroundColor: '#000' }}
+            containerStyle={{ position: 'absolute', top: -15, right: -2, zIndex: 10, alignItems: 'center' }}
+            textStyle={{ textAlign: 'center'}}
+          />
           <TouchableOpacity onPress={navigation.getParam('addCart')}>
           <Icon
             name='cart-plus'
@@ -56,11 +62,13 @@ class WatchDetailScreen extends React.Component {
     this.props.navigation.setParams({ value: this.state.value })
   }
 
-  handleAddCart = async () => {
+  handleAddCart = () => {
 
     const { item } = this.props.navigation.state.params;
     this.props.addProduct(item);
-    this.setState({ value: this.state.value + 1})
+    this.setState({ value: this.state.value + 1}, () => {
+      this.props.navigation.setParams({ value: this.state.value })
+    });
 
   }
 

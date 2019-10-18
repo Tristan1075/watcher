@@ -59,7 +59,6 @@ class CartScreen extends React.Component {
     }
 
     handleRemovePress = (item) => {
-        console.log('ok')
         this.props.removeProduct(item)
     }
 
@@ -119,7 +118,7 @@ class CartScreen extends React.Component {
                           totalCart: this.state.products.length < 2 ? this.state.totalCart : this.state.totalCart/2
                       }
                   }).then(() => {
-                      this.props.navigation.popToTop();
+                      this.props.navigation.navigate('Order');
                   });
               })
               .catch(error => {

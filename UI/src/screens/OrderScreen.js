@@ -46,6 +46,11 @@ class OrderScreen extends React.Component {
     })
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    console.log('prevProps', prevProps.orderHistory);
+    console.log('props', this.props.orderHistory);
+  }
+
   _renderItem = ({item, index}) => {
 
     const  d = new Date(item.date_created);
