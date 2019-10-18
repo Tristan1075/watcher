@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon, Badge } from 'react-native-elements';
 
 import NavigationOptions from '../components/NavigationOptions';
 import Layout from '../config/Layout';
@@ -26,7 +26,9 @@ class WatchDetailScreen extends React.Component {
       ...NavigationOptions,
       title: 'Detail',
       headerRight: (
-        <TouchableOpacity onPress={navigation.getParam('addCart')}>
+        <View>
+          <Badge status="warning" value={navigation.getParam('value')}/>
+          <TouchableOpacity onPress={navigation.getParam('addCart')}>
           <Icon
             name='cart-plus'
             type='font-awesome'
@@ -34,6 +36,7 @@ class WatchDetailScreen extends React.Component {
             size={30}
           />
         </TouchableOpacity>
+        </View>
       ),
       headerStyle: {
         marginRight: Layout.marginL
@@ -41,15 +44,24 @@ class WatchDetailScreen extends React.Component {
     }
   };
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      value: 0
+    }
+  }
+
   componentDidMount () {
     this.props.navigation.setParams({ addCart: this.handleAddCart });
+    this.props.navigation.setParams({ value: this.state.value })
   }
 
   handleAddCart = async () => {
 
     const { item } = this.props.navigation.state.params;
-
     this.props.addProduct(item);
+    this.setState({ value: this.state.value + 1})
+
   }
 
   _renderItem = ({item, index}) => {
