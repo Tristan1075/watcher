@@ -50,7 +50,6 @@ class WatchDetailScreen extends React.Component {
     const { item } = this.props.navigation.state.params;
 
     this.props.addProduct(item);
-    this.props.navigation.navigate('Cart', { isCartScreen: true });
   }
 
   _renderItem = ({item, index}) => {

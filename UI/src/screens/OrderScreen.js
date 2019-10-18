@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, SectionList } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { Button, Icon } from 'react-native-elements'
 import axios from 'axios';
 
@@ -47,26 +47,27 @@ class OrderScreen extends React.Component {
   }
 
   _renderItem = ({item, index}) => {
+
+    const  d = new Date(item.date_created);
     return (
-      <View style={styles.watchContainer}>
+      <View style={styles.listContainer}>
+        <Text>Order ID</Text>
+        <Text style={{ fontWeight: 'bold'}}>{item._id}</Text>
+        <Text style={{ fontWeight: '100', fontSize: 12}}>Shipping ID : {item.id_shipping}</Text>
+        <Text style={{ fontWeight: '100', fontSize: 12}}>{d.toLocaleString()}</Text>
       </View>
     );
   }
 
   render () {
-
-    console.log(this.state.orderHistory)
     return(
       <View style={styles.container}>
-        {this.state.orderHistory > 0 &&
-        <SectionList
-          sections={this.state.orderHistory}
-          keyExtractor={(item, index) => item + index}
-          renderItem={this._renderItem}
-          renderSectionHeader={({ section: { title } }) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />}
+        <FlatList
+          data={this.state.orderHistory}
+          renderItem={this._renderItem.bind(this)}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={this.FlatListItemSeparator}
+        />
       </View>
     );
   }
@@ -75,7 +76,20 @@ class OrderScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  listContainer: {
     margin: Layout.marginL,
+    backgroundColor: '#f4f4f4',
+    padding: Layout.marginL,
+    borderRadius: Layout.radius,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   }
 });
 

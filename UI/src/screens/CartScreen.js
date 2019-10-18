@@ -113,7 +113,7 @@ class CartScreen extends React.Component {
                       headers: {
                           'authorization': this.props.isConnected.isConnected
                       }, data: {
-                          idUser: '123456789',
+                          idUser: '5da867af1c9d440000f00224',
                           allIdProducts: allIdProducts,
                           tokenId: stripeTokenInfo,
                           totalCart: this.state.products.length < 2 ? this.state.totalCart : this.state.totalCart/2
@@ -147,12 +147,13 @@ class CartScreen extends React.Component {
                       <Text style={styles.totalCartTitle}>Total Panier : </Text>
                       <Text style={styles.totalCartPrice}>{this.state.products.length < 2 ? this.state.totalCart : this.state.totalCart/2}€</Text>
                   </View>
+                  {this.state.products.length > 0 &&
                   <Button
                     buttonStyle={styles.buttonStyle}
                     title={this.props.isConnected.isConnected ? "Pay" : "You need to login"}
                     onPress={this.handlePayButtonPress}
                     disabled={this.state.isPaymentPending}
-                  />
+                  />}
               </View>
               <LoginModal isVisible={this.state.paymodalModalVisible} setModalVisible={() => this.setModalVisible(false)}/>
           </View>

@@ -15,6 +15,7 @@ const  removeProductSuccess = (item) => {
 }
 
 export const addProduct = (item) => {
+  console.log(item);
   return(dispatch) => {
     dispatch(addProductSuccess(item));
   }

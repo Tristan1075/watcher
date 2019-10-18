@@ -50,8 +50,7 @@ const AppNavigator = createDrawerNavigator(
     }, {
       navigationOptions: {
         drawerLabel: 'Cart',
-        drawerLabelColor: '#000',
-        activeTintColor: '#333',
+        drawerLabelColor: '#c2c2c2',
         drawerIcon: ({ tintColor }) => (
           <Icon
             name='shopping-cart'
@@ -85,7 +84,7 @@ const AppNavigator = createDrawerNavigator(
       }
     }, {
       navigationOptions: {
-        drawerLabel: 'Order',
+        drawerLabel: 'Help',
         drawerIcon: ({tintColor}) => (
           <Icon
             name='question-circle'
@@ -99,7 +98,7 @@ const AppNavigator = createDrawerNavigator(
   },{
     initialRouteName: 'HomeDrawer',
     contentOptions: {
-      activeTintColor: '#e91e63',
+      activeTintColor: '#000000',
     }
   });
 
