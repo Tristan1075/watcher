@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native'
 import { connect } from 'react-redux';
-import { Button, Icon, Image } from 'react-native-elements'
+import { Button, Icon } from 'react-native-elements'
 import Swipeout from 'react-native-swipeout';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ import config from '../config';
 import stripe from 'tipsi-stripe'
 import LoginModal from '../components/LoginModal'
 import { removeProduct } from '../store/actions/products'
+import * as Animatable from 'react-native-animatable'
 
 const swipeoutBtns = [
     {
@@ -66,19 +67,20 @@ class CartScreen extends React.Component {
         this.setState({totalCart: this.state.totalCart += item.price});
 
         return (
-          <Swipeout right={swipeoutBtns} style={styles.swipeout} autoClose={true} onPress={() => this.handleRemovePress(item).b}>
-              <View key={index} style={styles.itemContainer}>
-                  <Image
-                    source={{uri: item.image}}
-                    style={styles.image}
-                    PlaceholderContent={<ActivityIndicator />}
-                  />
-                  <View style={styles.informations}>
-                      <Text style={styles.name}>{item.name}</Text>
-                      <Text style={styles.price}>{item.price}€</Text>
+          <Animatable.View key={index} animation='fadeInDown'>
+              <Swipeout right={swipeoutBtns} style={styles.swipeout} autoClose={true} onPress={() => this.handleRemovePress(item).b}>
+                  <View key={index} style={styles.itemContainer}>
+                      <Image
+                        source={{uri: item.image}}
+                        style={styles.image}
+                      />
+                      <View style={styles.informations}>
+                          <Text style={styles.name}>{item.name}</Text>
+                          <Text style={styles.price}>{item.price}€</Text>
+                      </View>
                   </View>
-              </View>
-          </Swipeout>
+              </Swipeout>
+          </Animatable.View>
         );
     }
 
@@ -141,19 +143,19 @@ class CartScreen extends React.Component {
                 keyExtractor={item => item.id}
                 ItemSeparatorComponent={this.FlatListItemSeparator}
               />
+              {this.state.products.length > 0 &&
               <View style={styles.totalCart}>
                   <View style={{ flexDirection: 'row', paddingVertical: Layout.marginL }}>
-                      <Text style={styles.totalCartTitle}>Total Panier : </Text>
+                      <Text style={styles.totalCartTitle}>Total cart : </Text>
                       <Text style={styles.totalCartPrice}>{this.state.products.length < 2 ? this.state.totalCart : this.state.totalCart/2}€</Text>
                   </View>
-                  {this.state.products.length > 0 &&
                   <Button
                     buttonStyle={styles.buttonStyle}
                     title={this.props.isConnected.isConnected ? "Pay" : "You need to login"}
                     onPress={this.handlePayButtonPress}
                     disabled={this.state.isPaymentPending}
-                  />}
-              </View>
+                  />
+              </View>}
               <LoginModal isVisible={this.state.paymodalModalVisible} setModalVisible={() => this.setModalVisible(false)}/>
           </View>
         );

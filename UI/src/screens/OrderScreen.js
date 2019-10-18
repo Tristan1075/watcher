@@ -56,8 +56,6 @@ class OrderScreen extends React.Component {
     const  d = new Date(item.date_created);
     return (
       <View style={styles.listContainer}>
-        <Text>Order ID</Text>
-        <Text style={{ fontWeight: 'bold'}}>{item._id}</Text>
         <Text style={{ fontWeight: '100', fontSize: 12}}>Shipping ID : {item.id_shipping}</Text>
         <Text style={{ fontWeight: '100', fontSize: 12}}>{d.toLocaleString()}</Text>
       </View>

@@ -7,23 +7,7 @@ import axios from 'axios';
 import NavigationOptions from '../components/NavigationOptions';
 import Layout from '../config/Layout';
 import config from '../config';
-
-
-const bracelet =
-  [
-    {
-      id: '1',
-      image: require('../images/burachler.png')
-    },
-    {
-      id: '2',
-      image: require('../images/burachler.png')
-    },
-    {
-      id: '3',
-      image: require('../images/burachler.png')
-    }
-]
+import * as Animatable from 'react-native-animatable'
 
 class CustomWatchScreen extends React.Component {
 
@@ -50,9 +34,9 @@ class CustomWatchScreen extends React.Component {
 
   _renderItem = ({item, index}) => {
     return (
-      <View style={styles.watchContainer}>
+      <Animatable.View key={index} animation={'fadeInUp'} style={styles.watchContainer}>
         <Image source={{ uri: item.link }} style={styles.imageWatch}/>
-      </View>
+      </Animatable.View>
     );
   }
 

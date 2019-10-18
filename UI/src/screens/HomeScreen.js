@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, FlatList, ScrollView } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { Icon, Button } from 'react-native-elements';
 import axios from 'axios';
 
@@ -66,7 +67,7 @@ class HomeScreen extends React.Component {
 
   _renderItem ({item, index}) {
     return (
-      <View key={index}>
+      <Animatable.View key={index} animation={index%2 ? 'slideInLeft' : 'slideInRight'}>
         <CardWatch
           name={item.name}
           price={item.price}
@@ -74,7 +75,7 @@ class HomeScreen extends React.Component {
           sizes={item.sizes}
           onPress={() => this.handlePress(item)}
         />
-      </View>
+      </Animatable.View>
     );
   }
 
@@ -97,13 +98,19 @@ class HomeScreen extends React.Component {
   render () {
     console.disableYellowBox = true;
     return(
-      <View style={styles.container}>
-        <FlatList
-          data={this.state.products}
-          renderItem={this._renderItem.bind(this)}
-          keyExtractor={item => item.id}
-        />
-        <Button title='Create my own watch' buttonStyle={styles.button} onPress={this.handleCreateCustomWatch}/>
+      <View style={{ flex: 1}}>
+        <ScrollView>
+          <Image source={require('../images/landscape.jpg')} style={styles.imageHome} />
+          <View style={styles.container}>
+            <FlatList
+              data={this.state.products}
+              renderItem={this._renderItem.bind(this)}
+              keyExtractor={item => item.id}
+              scrollEnabled={false}
+            />
+          </View>
+        </ScrollView>
+        <Button title='Create my own watch' buttonStyle={styles.button} onPressIn={this.handleCreateCustomWatch}/>
       </View>
     );
   }
@@ -112,12 +119,33 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: Layout.marginL
+    margin: Layout.marginL,
+    zIndex: 10,
+    marginTop: 150
   },
   button: {
-    margin: Layout.marginL,
     backgroundColor: '#000',
-    borderRadius: Layout.radius
+    marginTop: 0,
+    color: '#fff',
+    position: 'absolute',
+    bottom: Layout.marginL,
+    left: 3*Layout.marginL,
+    right: 3*Layout.marginL,
+    borderRadius: Layout.radius,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
+  },
+  imageHome: {
+    marginTop: 15,
+    position: 'absolute',
+    width: Layout.window.width,
+    height: 300
   }
 });
 

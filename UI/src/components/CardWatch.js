@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     borderRadius: Layout.radius
   },
   textContainer: {
+    width: Layout.window.width/1.5,
+    backgroundColor: '#fff',
     flex: 1,
     paddingTop: Layout.marginL,
     alignItems: 'center'
