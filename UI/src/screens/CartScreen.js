@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux';
-import { Button, Image } from 'react-native-elements'
+import { Button, Icon, Image } from 'react-native-elements'
 import Swipeout from 'react-native-swipeout';
 import axios from 'axios';
 
@@ -21,15 +21,26 @@ const swipeoutBtns = [
 class CartScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
+        console.log(navigation);
         return {
             ...NavigationOptions,
             title: 'Panier',
+            headerLeft: (
+              <Icon
+                onPress={() => navigation.openDrawer()}
+                name='bars'
+                type='font-awesome'
+                color='#000'
+                size={30}
+              />
+            ),
             headerStyle: {
                 backgroundColor: '#fff',
                 shadowColor: 'transparent',
                 elevation: 0,
                 borderBottomColor: 'transparent',
                 borderBottomWidth: 0,
+                marginLeft: Layout.marginL
             }
         }
     };
@@ -107,8 +118,9 @@ class CartScreen extends React.Component {
                           tokenId: stripeTokenInfo,
                           totalCart: this.state.products.length < 2 ? this.state.totalCart : this.state.totalCart/2
                       }
+                  }).then(() => {
+                      this.props.navigation.popToTop();
                   });
-                  this.props.navigation.popToTop();
               })
               .catch(error => {
                   console.warn('Payment failed', {error});

@@ -8,8 +8,10 @@ import { Provider } from 'react-redux';
 import HomeScreen from './src/screens/HomeScreen';
 import CartScreen from './src/screens/CartScreen';
 import CustomWatchScreen from './src/screens/CustomWatchScreen';
+import OrderScreen from './src/screens/OrderScreen';
 import WatchDetailScreen from './src/screens/WatchDetailScreen';
 import configureStore from './src/store/configureStore'
+import { Icon } from 'react-native-elements'
 
 
 const AppNavigator = createDrawerNavigator(
@@ -28,11 +30,52 @@ const AppNavigator = createDrawerNavigator(
         screen: CustomWatchScreen
       }
     }, {
-      drawerLabel: 'Home'
+      navigationOptions: {
+        drawerLabel: 'Home',
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name='home'
+            type='font-awesome'
+            color='#000'
+            size={30}
+          />
+        )
+      }
     }),
     CartDrawer: createStackNavigator({
       Cart: {
         screen: CartScreen,
+      }
+    }, {
+      navigationOptions: {
+        drawerLabel: 'Cart',
+        drawerLabelColor: '#000',
+        activeTintColor: '#333',
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name='shopping-cart'
+            type='font-awesome'
+            color='#000'
+            size={30}
+          />
+        )
+      }
+    }),
+    OrderDrawer: createStackNavigator({
+      Order: {
+        screen: OrderScreen,
+      }
+    }, {
+      navigationOptions: {
+        drawerLabel: 'Order',
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name='list-alt'
+            type='font-awesome'
+            color='#000'
+            size={30}
+          />
+        )
       }
     })
   },{

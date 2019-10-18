@@ -6,6 +6,8 @@ import { Button, Icon } from 'react-native-elements';
 import NavigationOptions from '../components/NavigationOptions';
 import Layout from '../config/Layout';
 import { addProduct } from '../store/actions/products';
+import Carousel from 'react-native-snap-carousel'
+import { ProgressStep } from 'react-native-progress-steps'
 
 
 /*
@@ -48,20 +50,40 @@ class WatchDetailScreen extends React.Component {
     const { item } = this.props.navigation.state.params;
 
     this.props.addProduct(item);
-    this.props.navigation.navigate('Cart');
+    this.props.navigation.navigate('Cart', { isCartScreen: true });
+  }
+
+  _renderItem = ({item, index}) => {
+    console.log(item)
+    return (
+      <View style={styles.watchContainer}>
+        <Image source={{ uri: item }} style={styles.image}/>
+      </View>
+    );
   }
 
   render () {
 
     const { item } = this.props.navigation.state.params;
-
     return(
       <ScrollView style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image
-            source={{uri: item.image}}
-            style={styles.image}
-          />
+          {item.images ?
+          <Carousel
+            ref={this.saveCarouselRef}
+            data={item.images}
+            renderItem={this._renderItem}
+            sliderWidth={Layout.window.width - Layout.margin}
+            itemWidth={Layout.window.width - Layout.margin}
+            enableMomentum={true}
+            activeSlideOffset={10}
+            adding removeClippedSubviews={false}
+            onBeforeSnapToItem={this.handleSnapToItem}
+          /> :
+            <Image
+              source={{uri: item.image}}
+              style={styles.image}
+            />}
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{item.name}</Text>

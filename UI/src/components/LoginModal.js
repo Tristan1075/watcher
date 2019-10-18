@@ -50,7 +50,7 @@ class LoginModal extends React.Component {
                 value={this.state.email}
                 containerStyle={styles.containerInput}
                 leftIconContainerStyle={styles.iconStyle}
-                labelStyle={styles.labelStyle}
+                inputStyle={styles.inputStyle}
                 placeholder='EMAIL'
                 leftIcon={
                   <Icon
@@ -69,7 +69,7 @@ class LoginModal extends React.Component {
                 value={this.state.password}
                 containerStyle={styles.containerInput}
                 leftIconContainerStyle={styles.iconStyle}
-                labelStyle={styles.labelStyle}
+                inputStyle={styles.inputStyle}
                 placeholder='PASSWORD'
                 leftIcon={
                   <Icon
@@ -107,7 +107,13 @@ const styles = StyleSheet.create({
     marginRight: Layout.marginL
   },
   labelStyle: {
-    fontWeight: '100'
+    fontWeight: '100',
+    fontSize: 14
+  },
+  inputStyle: {
+    fontWeight: '100',
+    fontSize: 14,
+    letterSpacing: 2
   },
   logo: {
     alignSelf: 'center',

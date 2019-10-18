@@ -15,6 +15,7 @@ class HomeScreen extends React.Component {
       drawerLabel: 'Home',
       drawerIcon: (
         <Icon
+          onPress={() => navigation.popToTop()}
           name='home'
           type='font-awesome'
           color='#000'
@@ -94,6 +95,7 @@ class HomeScreen extends React.Component {
   }
 
   render () {
+    console.disableYellowBox = true;
     return(
       <View style={styles.container}>
         <FlatList
